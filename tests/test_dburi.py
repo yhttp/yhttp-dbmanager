@@ -14,7 +14,6 @@ def test_dburi():
     assert uri.dbname == 'quux.thud'
     assert uri.dumps() == uristr
 
-
     # Invalid uri
     uristr = 'baduri'
     with pytest.raises(ValueError):
