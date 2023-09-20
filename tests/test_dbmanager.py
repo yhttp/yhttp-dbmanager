@@ -17,6 +17,9 @@ def test_dbmanager():
     dbm.create(DBNAME)
     assert dbm.exists(DBNAME)
 
+    dbm.create(DBNAME, dropifexists=True)
+    assert dbm.exists(DBNAME)
+
     dbm.drop(DBNAME)
     assert not dbm.exists(DBNAME)
 
