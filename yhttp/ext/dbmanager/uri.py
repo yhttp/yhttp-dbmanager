@@ -9,6 +9,9 @@ URIPATTERN = re.compile(
 
 class DatabaseURI:
     def __init__(self, provider, dbname, host='', user='', password=''):
+        assert provider
+        assert dbname
+
         self.provider = provider
         self.host = host
         self.dbname = dbname
