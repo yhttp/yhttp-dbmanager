@@ -63,13 +63,13 @@ class PostgresqlManager(DatabaseManager):
         if dropifexists:
             self.dropifexists(name)
 
-        query = f'CREATE DATABASE {name}' + \
+        query = f'CREATE DATABASE "{name}"' + \
             (f' WITH OWNER {owner}' if owner else '')
 
         self.execute(query)
 
     def drop(self, name):
-        self.execute(f'DROP DATABASE {name}')
+        self.execute(f'DROP DATABASE "{name}"')
 
     def dropifexists(self, name):
-        self.execute(f'DROP DATABASE IF EXISTS {name}')
+        self.execute(f'DROP DATABASE IF EXISTS "{name}"')
