@@ -4,21 +4,32 @@ import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 
-class DBManager(metaclass=abc.ABCMeta):
+class DatabaseManager(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def create(self, name, owner):  # pragma: no cover
+    def execute(self, query):  # pragma: no cover
+        pass
+
+    @abc.abstractmethod
+    def create(self, name, owner=None, dropifexists=False):  # pragma: no cover
         pass
 
     @abc.abstractmethod
     def drop(self, name):  # pragma: no cover
         pass
 
+    @abc.abstractmethod
+    def exists(self, name):  # pragma: no cover
+        pass
 
-class PostgresqlManager(DBManager):
+    @abc.abstractmethod
+    def dropifexists(self, name):  # pragma: no cover
+        pass
 
-    def __init__(self, host='localhost', dbname='postgres', user='postgres',
-                 password='postgres'):
+
+class PostgresqlManager(DatabaseManager):
+
+    def __init__(self, host=None, dbname='postgres', user=None, password=None):
         self.connection = psycopg2.connect(
             host=host,
             dbname=dbname,
@@ -31,6 +42,20 @@ class PostgresqlManager(DBManager):
         cursor = self.connection.cursor()
         try:
             cursor.execute(query)
+        finally:
+            cursor.close()
+
+    def exists(self, name):
+        query = f'SELECT 1 FROM pg_database WHERE datname=\'{name}\''
+
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute(query)
+            r = cursor.fetchone()
+            if r:
+                return r[0] == 1
+            else:
+                return False
         finally:
             cursor.close()
 
@@ -48,7 +73,3 @@ class PostgresqlManager(DBManager):
 
     def dropifexists(self, name):
         self.execute(f'DROP DATABASE IF EXISTS {name}')
-
-
-def createdbmanager(*a, **k):
-    return PostgresqlManager(*a, **k)

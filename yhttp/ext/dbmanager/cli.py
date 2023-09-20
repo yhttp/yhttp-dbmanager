@@ -55,7 +55,7 @@ class DatabaseAdministrativeCommand(SubCommand):
 
     def getappdbinfo(self, args):
         dbsettings = args.application.settings.db
-        url = uri.parse(dbsettings.url)
+        url = DatabaseURI.loads(dbsettings.url)
         return url
 
 
@@ -64,27 +64,25 @@ class CreateDatabase(DatabaseAdministrativeCommand):
     __aliases__ = ['c']
 
     def __call__(self, args):
-        info = self.getappdbinfo(args)
-        self.getdbmanager(args) \
-            .create(info['database'], owner=info.get('user'))
+        uri = self.getappdbinfo(args)
+        self.getdbmanager(args).create(uri.dbname, owner=uri.user)
+    #     self.create_objects(args)
+    #     self.report_objects(args)
 
-        self.create_objects(args)
-        self.report_objects(args)
+    # def create_objects(self, args):
+    #     app = args.application
+    #     orm.initialize(app.db, app.settings.db.url, create_objects=True)
 
-    def create_objects(self, args):
-        app = args.application
-        orm.initialize(app.db, app.settings.db.url, create_objects=True)
-
-    def report_objects(self, args):
-        app = args.application
-        result = app.db.execute('''
-            SELECT relname, relkind
-            FROM pg_class
-            WHERE relname !~ '^(pg|sql)_' AND relkind != 'v';
-        ''')
-        print('Following objects has been created successfully:')
-        for name, kind in result.fetchall():
-            print(kind, name)
+    # def report_objects(self, args):
+    #     app = args.application
+    #     result = app.db.execute('''
+    #         SELECT relname, relkind
+    #         FROM pg_class
+    #         WHERE relname !~ '^(pg|sql)_' AND relkind != 'v';
+    #     ''')
+    #     print('Following objects has been created successfully:')
+    #     for name, kind in result.fetchall():
+    #         print(kind, name)
 
 
 class DropDatabase(DatabaseAdministrativeCommand):
@@ -92,8 +90,8 @@ class DropDatabase(DatabaseAdministrativeCommand):
     __aliases__ = ['d']
 
     def __call__(self, args):
-        info = self.getappdbinfo(args)
-        self.getdbmanager(args).drop(info['database'])
+        uri = self.getappdbinfo(args)
+        self.getdbmanager(args).drop(uri.dbname)
 
 
 class DatabaseCLI(SubCommand):

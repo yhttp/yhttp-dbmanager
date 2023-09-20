@@ -1,5 +1,3 @@
-import yhttp
-
 from .cli import DatabaseCLI
 
 
