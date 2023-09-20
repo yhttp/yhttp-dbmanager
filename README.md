@@ -1,2 +1,2 @@
-# yhttp-dbmanager
-Create and drop databases using CLI and API.
+# Dependencies
+install `postgreslq` brefore use of this project.
