@@ -1,5 +1,5 @@
 TEST_DIR = tests
-PRJ = yhttp.ext.dbmanager
+PKG = yhttp.ext.dbmanager
 PYTEST_FLAGS = -v
 HERE = $(shell readlink -f `dirname .`)
 VENVNAME = $(shell basename $(HERE))
@@ -26,7 +26,7 @@ test:
 
 .PHONY: cover
 cover:
-	$(PYTEST) $(PYTEST_FLAGS) --cov=$(PRJ) $(UNIT)
+	$(PYTEST) $(PYTEST_FLAGS) --cov=$(PKG) $(UNIT)
 
 
 .PHONY: cover-html
