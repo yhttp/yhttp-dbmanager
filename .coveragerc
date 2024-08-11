@@ -1,0 +1,11 @@
+[run]
+source=yhttp
+concurrency=multiprocessing
+omit = 
+    yhttp/ext/dbmanager/__init__.py
+
+
+[report]
+exclude_lines=
+	raise NotImplementedError
+	pragma: no cover
