@@ -2,7 +2,7 @@ TEST_DIR = tests
 PRJ = yhttp.ext.dbmanager
 PYTEST_FLAGS = -v
 HERE = $(shell readlink -f `dirname .`)
-VENVNAME = $(shell basename $(HERE) | cut -d'-' -f1)
+VENVNAME = $(shell basename $(HERE))
 VENV = $(HOME)/.virtualenvs/$(VENVNAME)
 PY = $(VENV)/bin/python3
 PIP = $(VENV)/bin/pip3
@@ -12,14 +12,21 @@ FLAKE8 = $(VENV)/bin/flake8
 TWINE = $(VENV)/bin/twine
 
 
+ifdef U
+  UNIT = tests/test_$(U).py
+else
+  UNIT = $(TEST_DIR)
+endif
+
+
 .PHONY: test
 test:
-	$(PYTEST) $(PYTEST_FLAGS) $(TEST_DIR)
+	$(PYTEST) $(PYTEST_FLAGS) $(UNIT)
 
 
 .PHONY: cover
 cover:
-	$(PYTEST) $(PYTEST_FLAGS) --cov=$(PRJ) $(TEST_DIR)
+	$(PYTEST) $(PYTEST_FLAGS) --cov=$(PRJ) $(UNIT)
 
 
 .PHONY: cover-html
@@ -35,13 +42,18 @@ lint:
 
 .PHONY: venv
 venv:
-	$(PY) -m venv $(VENV)
+	python3 -m venv $(VENV)
 
 
 .PHONY: env
 env:
 	$(PIP) install -r requirements-dev.txt
 	$(PIP) install -e .
+
+
+.PHONY: venv-delete
+venv-delete: clean
+	rm -rf $(VENV)
 
 
 .PHONY: sdist
