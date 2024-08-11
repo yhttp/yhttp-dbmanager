@@ -77,4 +77,5 @@ pypi: dist
 
 .PHONY: clean
 clean:
+	rm -rf dist/*
 	rm -rf build/*

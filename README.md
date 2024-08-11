@@ -65,6 +65,12 @@ make cover-html
 ```
 
 
+# Lint
+```bash
+make lint
+```
+
+
 ### Distribution
 Execute these commands to create `Python`'s standard distribution packages
 at `dist` directory:
@@ -80,20 +86,22 @@ make dist
 to create both `sdidst` and `wheel` packages.
 
 
+### Clean build directory
+Execute: 
+```bash
+make clean
+```
+to clean-up previous dist/* and build/* directories.
+
+
 ### PyPI
 
 > **_WARNING:_** Do not do this if you'r not responsible as author and 
 > or maintainer of this project.
 
-
 Execute
 ```bash
+make clean
 make pypi
 ```
 to upload `sdists` and `wheel` packages on [PyPI](https://pypi.org).
-
-
-### Clean build directory
-```bash
-make clean
-```

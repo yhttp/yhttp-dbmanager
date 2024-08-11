@@ -18,7 +18,6 @@ with open(
 
 dependencies = [
     'yhttp >= 3.5.2, < 5',
-    'dbmanager',
     'psycopg2',
 ]
 
