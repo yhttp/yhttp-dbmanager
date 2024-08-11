@@ -1,31 +1,34 @@
-PY = python3
-PIP = pip3
 TEST_DIR = tests
 PRJ = yhttp.ext.dbmanager
 PYTEST_FLAGS = -v
 HERE = $(shell readlink -f `dirname .`)
 VENVNAME = $(shell basename $(HERE) | cut -d'-' -f1)
 VENV = $(HOME)/.virtualenvs/$(VENVNAME)
+PY = $(VENV)/bin/python3
+PIP = $(VENV)/bin/pip3
+PYTEST = $(VENV)/bin/pytest
+FLAKE8 = $(VENV)/bin/flake8
+TWINE = $(VENV)/bin/twine
 
 
 .PHONY: test
 test:
-	pytest $(PYTEST_FLAGS) $(TEST_DIR)
+	$(PYTEST) $(PYTEST_FLAGS) $(TEST_DIR)
 
 
 .PHONY: cover
 cover:
-	pytest $(PYTEST_FLAGS) --cov=$(PRJ) $(TEST_DIR)
+	$(PYTEST) $(PYTEST_FLAGS) --cov=$(PRJ) $(TEST_DIR)
 
 
 .PHONY: lint
 lint:
-	flake8
+	$(FLAKE8)
 
 
 .PHONY: venv
 venv:
-	python3 -m venv $(VENV)
+	$(PY) -m venv $(VENV)
 
 
 .PHONY: env
@@ -50,7 +53,7 @@ dist: sdist bdist
 
 .PHONY: pypi
 pypi: dist
-	twine upload dist/*.gz dist/*.egg
+	$(TWINE) upload dist/*.gz dist/*.egg
 
 
 .PHONY: clean
