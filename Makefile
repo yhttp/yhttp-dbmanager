@@ -7,6 +7,7 @@ VENV = $(HOME)/.virtualenvs/$(VENVNAME)
 PY = $(VENV)/bin/python3
 PIP = $(VENV)/bin/pip3
 PYTEST = $(VENV)/bin/pytest
+COVERAGE = $(VENV)/bin/coverage
 FLAKE8 = $(VENV)/bin/flake8
 TWINE = $(VENV)/bin/twine
 
@@ -19,6 +20,12 @@ test:
 .PHONY: cover
 cover:
 	$(PYTEST) $(PYTEST_FLAGS) --cov=$(PRJ) $(TEST_DIR)
+
+
+.PHONY: cover-html
+cover-html: cover
+	$(COVERAGE) html
+	@echo "Browse htmlcov/index.html for the covearge report"
 
 
 .PHONY: lint

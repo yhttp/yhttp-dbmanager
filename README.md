@@ -32,6 +32,7 @@ make test
 Execute all tests and report coverage result:
 ```bash
 make cover
+make cover-html
 ```
 
 ### Virtualenv
