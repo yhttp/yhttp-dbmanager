@@ -46,21 +46,21 @@ env:
 
 .PHONY: sdist
 sdist:
-	$(PY) setup.py sdist
+	$(PY) -m build --sdist
 
 
 .PHONY: bdist
-bdist:
-	$(PY) setup.py bdist_egg
+wheel:
+	$(PY) -m build --wheel
 
 
 .PHONY: dist
-dist: sdist bdist
+dist: sdist wheel
 
 
 .PHONY: pypi
 pypi: dist
-	$(TWINE) upload dist/*.gz dist/*.egg
+	$(TWINE) upload dist/*.gz dist/*.whl
 
 
 .PHONY: clean
