@@ -1,6 +1,7 @@
-from setuptools import setup
 import os.path
 import re
+
+from setuptools import setup
 
 
 # reading package's version (same way sqlalchemy does)

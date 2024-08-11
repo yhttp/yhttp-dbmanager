@@ -50,7 +50,7 @@ class DatabaseAdministrativeCommand(SubCommand):
             user=args.user,
             password=password,
             host=args.host,
-            dbname=args.database
+            database=args.database
         )
 
     def getappdbinfo(self, args):
@@ -65,7 +65,7 @@ class CreateDatabase(DatabaseAdministrativeCommand):
 
     def __call__(self, args):
         uri = self.getappdbinfo(args)
-        self.getdbmanager(args).create(uri.dbname, owner=uri.user)
+        self.getdbmanager(args).create(uri.database, owner=uri.user)
 
 
 class DropDatabase(DatabaseAdministrativeCommand):
@@ -74,7 +74,7 @@ class DropDatabase(DatabaseAdministrativeCommand):
 
     def __call__(self, args):
         uri = self.getappdbinfo(args)
-        self.getdbmanager(args).drop(uri.dbname)
+        self.getdbmanager(args).drop(uri.database)
 
 
 class DatabaseCLI(SubCommand):

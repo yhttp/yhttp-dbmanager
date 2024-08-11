@@ -11,7 +11,7 @@ def test_dburi():
     assert uri.user == 'bar'
     assert uri.password == 'baz'
     assert uri.host == 'qux'
-    assert uri.dbname == 'quux.thud'
+    assert uri.database == 'quux.thud'
     assert uri.dumps() == uristr
 
     # Invalid uri
@@ -26,7 +26,7 @@ def test_dburi():
     assert uri.user == 'bar'
     assert uri.password == ''
     assert uri.host == 'qux'
-    assert uri.dbname == 'quux.thud'
+    assert uri.database == 'quux.thud'
     assert uri.dumps() == uristr
 
     # Without username and password
@@ -36,7 +36,7 @@ def test_dburi():
     assert uri.user == ''
     assert uri.password == ''
     assert uri.host == 'qux'
-    assert uri.dbname == 'quux.thud'
+    assert uri.database == 'quux.thud'
     assert uri.dumps() == uristr
 
     # Without username, password and host
@@ -46,5 +46,18 @@ def test_dburi():
     assert uri.user == ''
     assert uri.password == ''
     assert uri.host == ''
-    assert uri.dbname == 'quux.thud'
+    assert uri.database == 'quux.thud'
     assert uri.dumps() == uristr
+
+
+def test_dburi_todict():
+    uristr = 'foo://bar:baz@qux/quux.thud'
+    uri = DatabaseURI.loads(uristr)
+
+    assert uri.todict() == dict(
+        provider='foo',
+        user='bar',
+        password='baz',
+        host='qux',
+        database='quux.thud'
+    )
