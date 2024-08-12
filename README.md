@@ -6,7 +6,7 @@ API.
 ## Contribution
 
 ### Dependencies
-Install `postgreslq` brefore use of this project.
+Install `postgresql` brefore use of this project.
 ```bash
 apt install postgresql
 ```
