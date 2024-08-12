@@ -91,7 +91,7 @@ Execute:
 ```bash
 make clean
 ```
-to clean-up previous dist/* and build/* directories.
+to clean-up previous `dist/*` and `build/*` directories.
 
 
 ### PyPI
