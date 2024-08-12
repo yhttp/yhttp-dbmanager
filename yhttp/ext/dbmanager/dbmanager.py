@@ -29,7 +29,8 @@ class DatabaseManager(metaclass=abc.ABCMeta):
 
 class PostgresqlManager(DatabaseManager):
 
-    def __init__(self, host=None, database='postgres', user=None, password=None):
+    def __init__(self, host=None, database='postgres', user=None,
+                 password=None):
         self.connection = psycopg2.connect(
             host=host,
             dbname=database,

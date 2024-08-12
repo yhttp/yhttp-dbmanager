@@ -1,8 +1,8 @@
 # flake8: noqa
-from .cli import DatabaseCLI
+from .cli import DatabaseCommand
 from .install import install
 from .dbmanager import PostgresqlManager
 from .uri import DatabaseURI
 
 
-__version__ = '2.9.0'
+__version__ = '3.0.0'

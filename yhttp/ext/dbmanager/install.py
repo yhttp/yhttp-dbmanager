@@ -1,10 +1,10 @@
-from .cli import DatabaseCLI
+from .cli import DatabaseCommand
 
 
 def install(app, cliarguments=None):
-    app.cliarguments.append(DatabaseCLI)
+    app.cliarguments.append(DatabaseCommand)
     if cliarguments:
-        DatabaseCLI.__arguments__.extend(cliarguments)
+        DatabaseCommand.__arguments__.extend(cliarguments)
 
     @app.when
     def ready(app):

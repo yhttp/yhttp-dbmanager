@@ -77,7 +77,7 @@ class DropDatabase(DatabaseAdministrativeCommand):
         self.getdbmanager(args).drop(uri.database)
 
 
-class DatabaseCLI(SubCommand):
+class DatabaseCommand(SubCommand):
     __command__ = 'database'
     __aliases__ = ['db']
     __arguments__ = [
