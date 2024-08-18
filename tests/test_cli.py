@@ -1,9 +1,12 @@
+import os
+
 from bddcli import Given, Application as CLIApplication, status, stderr, \
     when, stdout
 import easycli
 from yhttp.core import Application
 
 from yhttp.ext.dbmanager import install
+from .conftest import CICD
 
 
 class Bar(easycli.SubCommand):
@@ -21,10 +24,17 @@ db:
 install(app, cliarguments=[Bar])
 
 
-def test_applicationcli():
+def test_applicationcli(cicd):
     app.ready()
     cliapp = CLIApplication('example', 'tests.test_cli:app.climain')
-    with Given(cliapp, 'db'):
+    env = os.environ.copy()
+    if cicd:
+        env['YHTTP_DB_DEFAULT_HOST'] = host
+        env['YHTTP_DB_DEFAULT_ADMINUSER'] = user
+        env['YHTTP_DB_DEFAULT_ADMINPASS'] = pass_
+
+
+    with Given(cliapp, 'db', environ=env):
         assert stderr == ''
         assert status == 0
 
