@@ -6,7 +6,6 @@ import easycli
 from yhttp.core import Application
 
 from yhttp.ext.dbmanager import install
-from .conftest import CICD
 
 
 class Bar(easycli.SubCommand):
@@ -29,10 +28,9 @@ def test_applicationcli(cicd):
     cliapp = CLIApplication('example', 'tests.test_cli:app.climain')
     env = os.environ.copy()
     if cicd:
-        env['YHTTP_DB_DEFAULT_HOST'] = host
-        env['YHTTP_DB_DEFAULT_ADMINUSER'] = user
-        env['YHTTP_DB_DEFAULT_ADMINPASS'] = pass_
-
+        env.setdefault('YHTTP_DB_DEFAULT_HOST', 'localhost')
+        env.setdefault('YHTTP_DB_DEFAULT_ADMINUSER', 'postgres')
+        env.setdefault('YHTTP_DB_DEFAULT_ADMINPASS', 'postgres')
 
     with Given(cliapp, 'db', environ=env):
         assert stderr == ''

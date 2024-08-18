@@ -1,6 +1,3 @@
-from yhttp.ext.dbmanager import PostgresqlManager
-
-
 DBNAME = 'yhttp-postgesql-testing'
 
 
