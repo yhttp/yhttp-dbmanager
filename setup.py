@@ -35,7 +35,7 @@ setup(
     install_requires=dependencies,
     packages=find_namespace_packages(
         where='./',
-        include=['yhttp'],
+        include=['yhttp.ext.dbmanager'],
         exclude=['tests']
     ),
     license='MIT',
