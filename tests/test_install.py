@@ -1,7 +1,7 @@
-from yhttp import Application
-from yhttp.ext.dbmanager import install
-
 import pytest
+from yhttp.core import Application
+
+from yhttp.ext.dbmanager import install
 
 
 app = Application()
