@@ -1,9 +1,0 @@
-build
-setuptools
-bddcli >= 2.5.1, < 3
-coverage < 6
-coveralls
-pytest >= 4.4.0
-pytest-cov
-flake8
-yhttp-dev >= 3.1.1
