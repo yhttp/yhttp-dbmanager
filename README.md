@@ -45,7 +45,10 @@ app = Application(__version__, 'foo')
 
 
 # builtin settings
-# app.settings.merge(...)
+app.settings.merge('''
+db:
+  url: postgres://:@/ticketing
+```)
 
 
 # install extensions
