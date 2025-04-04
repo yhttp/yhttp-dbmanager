@@ -15,7 +15,7 @@ class Bar(easycli.SubCommand):
         print('bar')
 
 
-app = Application()
+app = Application('0.1.0', 'foo')
 app.settings.merge('''
 db:
   url: postgres://:@/foo

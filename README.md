@@ -3,6 +3,111 @@
 A `yhttp` extension to create and remove database(s) using command line and
 API.
 
+
+## Quickstart
+
+### Dependencies
+Install `postgresql` brefore use of this project.
+```bash
+apt install postgresql
+```
+
+### Prepare
+
+Create and grant the `postgresql` role with `createdb` permission to 
+authenticate the current `unix` user within `postgresql` using the peer 
+authentication.
+```bash
+echo "CREATE USER ${USER} WITH CREATEDB" | sudo -u postgres psql
+# Or
+echo "ALTER USER ${USER} CREATEDB" | sudo -u postgres psql
+```
+
+### Usage
+
+Import and install the extension inside the `roolup.py`:
+
+```python
+# foo/version.py
+__version__ = '0.1.'
+```
+
+
+```python
+# foo/rollup.py
+from yhttp.core import Application
+from yhttp.ext import dbmanager
+
+from .version import __version__
+
+
+app = Application(__version__, 'foo')
+
+
+# builtin settings
+# app.settings.merge(...)
+
+
+# install extensions
+dbmanager.install(app)
+
+
+# http handlers
+from . import handlers
+```
+
+
+```python
+# foo/__init__.py
+from .version import __version__
+from .rollup import app
+```
+
+
+```python
+# setup.py
+import re
+from os.path import join, dirname
+
+from setuptools import setup, find_packages
+
+
+# reading package version (same way the sqlalchemy does)
+with open(join(dirname(__file__), 'foo/version.py')) as v_file:
+    package_version = re.compile('.*__version__ = \'(.*?)\'', re.S).\
+        match(v_file.read()).group(1)
+
+
+dependencies = [
+    'yhttp >= 7.0.1, < 8'
+    'yhttp-dbmanager >= 5.0.1, < 6'
+]
+
+
+setup(
+    name='foo',
+    version=package_version,
+    install_requires=dependencies,
+    packages=find_packages(
+        where='.',
+        exclude=['tests']
+    ),
+    entry_points={
+        'console_scripts': [
+            'foo = foo:app.climain'
+        ]
+    },
+)
+
+```
+
+After installing the extension these command line interfaces will be available
+as as subcommand of your application command line interface:
+```bash
+foo db --help
+```
+
+
 ## Contribution
 
 ### Dependencies

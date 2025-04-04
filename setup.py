@@ -18,7 +18,7 @@ with open(
 
 
 dependencies = [
-    'yhttp >= 6.2, < 7',
+    'yhttp >= 7.0.1, < 8',
     'psycopg2',
 ]
 

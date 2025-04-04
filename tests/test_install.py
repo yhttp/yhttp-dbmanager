@@ -4,7 +4,7 @@ from yhttp.core import Application
 from yhttp.ext.dbmanager import install
 
 
-app = Application()
+app = Application('0.1.0', 'foo')
 
 
 def test_install():
