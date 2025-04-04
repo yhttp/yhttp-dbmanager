@@ -13,5 +13,3 @@ def install(app, cliarguments=None):
                 'Please provide db.url configuration entry, for example: '
                 'postgres://:@/dbname'
             )
-
-    return app
