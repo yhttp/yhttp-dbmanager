@@ -1,6 +1,6 @@
 [run]
 source=yhttp
-concurrency=multiprocessing
+patch = subprocess
 omit = 
     yhttp/ext/dbmanager/__init__.py
 

@@ -1,7 +1,6 @@
 import os
 
 import pytest
-from yhttp.dev.fixtures import cicd
 from yhttp.ext.dbmanager import PostgresqlManager
 
 

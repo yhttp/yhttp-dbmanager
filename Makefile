@@ -2,9 +2,9 @@ PKG_NAMESPACE = yhttp.ext.dbmanager
 PKG_NAME = yhttp-dbmanager
 PYDEPS_COMMON = \
 	'coveralls' \
-	'bddrest >= 6.1, < 7' \
-	'bddcli >= 2.5.1, < 3' \
-	'yhttp-dev >= 3.2.4'
+	'bddrest >= 6.2.3, < 7' \
+	'bddcli >= 2.10.1, < 3' \
+ 	'pytest-fixkit >= 1.0.3'
 
 
 # Assert the python-makelib version
