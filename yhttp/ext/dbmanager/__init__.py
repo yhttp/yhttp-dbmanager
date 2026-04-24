@@ -5,4 +5,4 @@ from .dbmanager import PostgresqlManager
 from .uri import DatabaseURI
 
 
-__version__ = '6.2.0'
+__version__ = '7.0.0'

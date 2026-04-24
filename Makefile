@@ -3,13 +3,13 @@ PKG_NAME = yhttp-dbmanager
 VENV_NAME = yhttp
 PYDEPS_COMMON = \
 	'coveralls' \
-	'bddrest >= 6.2.3, < 7' \
+	'bddrest >= 6.3.3, < 7' \
 	'bddcli >= 2.10.1, < 3' \
  	'pytest-fixkit >= 1.0.3'
 
 
 # Assert the python-makelib version
-PYTHON_MAKELIB_VERSION_REQUIRED = 2.5.2
+PYTHON_MAKELIB_VERSION_REQUIRED = 4
 
 
 # Ensure the python-makelib is installed
