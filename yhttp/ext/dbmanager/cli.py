@@ -59,7 +59,7 @@ class DatabaseAdministrativeCommand(SubCommand):
         return url
 
 
-class CreateDatabase(DatabaseAdministrativeCommand):
+class CreateDatabaseCommand(DatabaseAdministrativeCommand):
     __command__ = 'create'
     __aliases__ = ['c']
 
@@ -68,7 +68,7 @@ class CreateDatabase(DatabaseAdministrativeCommand):
         self.getdbmanager(args).create(uri.database, owner=uri.user)
 
 
-class DropDatabase(DatabaseAdministrativeCommand):
+class DropDatabaseCommand(DatabaseAdministrativeCommand):
     __command__ = 'drop'
     __aliases__ = ['d']
 
@@ -77,10 +77,19 @@ class DropDatabase(DatabaseAdministrativeCommand):
         self.getdbmanager(args).drop(uri.database)
 
 
+class MigrationCommand(SubCommand):
+    __command__ = 'migration'
+    __aliases__ = ['mi']
+
+    def __call__(self, args):
+        self._parser.print_help()
+
+
 class DatabaseCommand(SubCommand):
     __command__ = 'database'
     __aliases__ = ['db']
     __arguments__ = [
-        CreateDatabase,
-        DropDatabase
+        CreateDatabaseCommand,
+        DropDatabaseCommand,
+        MigrationCommand
     ]
