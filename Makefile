@@ -5,7 +5,8 @@ PYDEPS_COMMON = \
 	'coveralls' \
 	'bddrest >= 6.3.3, < 7' \
 	'bddcli >= 2.10.1, < 3' \
- 	'pytest-fixkit >= 1.0.3'
+ 	'pytest-fixkit >= 1.0.3' \
+	'yhttp-dev >= 4.0.2'
 
 
 # Assert the python-makelib version

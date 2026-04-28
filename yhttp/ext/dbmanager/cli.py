@@ -4,7 +4,7 @@ import getpass
 
 from easycli import SubCommand, Argument
 
-from . import dbmanager
+from . import dbmanager, migration
 from .uri import DatabaseURI
 
 
@@ -59,7 +59,7 @@ class DatabaseAdministrativeCommand(SubCommand):
         return url
 
 
-class CreateDatabase(DatabaseAdministrativeCommand):
+class CreateDatabaseCommand(DatabaseAdministrativeCommand):
     __command__ = 'create'
     __aliases__ = ['c']
 
@@ -68,7 +68,7 @@ class CreateDatabase(DatabaseAdministrativeCommand):
         self.getdbmanager(args).create(uri.database, owner=uri.user)
 
 
-class DropDatabase(DatabaseAdministrativeCommand):
+class DropDatabaseCommand(DatabaseAdministrativeCommand):
     __command__ = 'drop'
     __aliases__ = ['d']
 
@@ -77,10 +77,91 @@ class DropDatabase(DatabaseAdministrativeCommand):
         self.getdbmanager(args).drop(uri.database)
 
 
+class MigrationSubCommand(SubCommand):
+    def migrator(self, args):
+        app = args.application
+        migrator = migration.Migrator(
+            app.settings.db.url,
+            app.settings.db.migration
+        )
+        return migrator
+
+
+class UpgradeCommand(MigrationSubCommand):
+    __command__ = 'upgrade'
+    __aliases__ = ['u', 'up']
+    __arguments__ = [
+        Argument(
+            'version',
+            nargs='?',
+            metavar='VERSION',
+            type=int,
+            help='Upgrade to this version, default: last version'
+        )
+    ]
+
+    def __call__(self, args):
+        with self.migrator(args) as m:
+            ver = m.upgrade(args.version)
+
+        print(f'database successfully upgraded to version {ver:04d}.')
+
+
+class DowngradeCommand(MigrationSubCommand):
+    __command__ = 'downgrade'
+    __aliases__ = ['d', 'down']
+    __arguments__ = [
+        Argument(
+            'version',
+            metavar='VERSION',
+            type=int,
+            help='Upgrade to this version.'
+        )
+    ]
+
+    def __call__(self, args):
+        with self.migrator(args) as m:
+            ver = m.downgrade(args.version)
+
+        print(f'database successfully downgraded to version {ver:04d}.')
+
+
+class NewVersionCommand(MigrationSubCommand):
+    __command__ = 'new'
+    __aliases__ = ['n']
+    __arguments__ = [
+        Argument(
+            'name',
+            metavar='TITLE',
+            help='Creates a new database version file'
+        )
+    ]
+
+    def __call__(self, args):
+        with self.migrator(args) as m:
+            ver = m.newversion(args.name)
+
+        print(f'File generated successfully: {ver}.')
+
+
+class MigrationCommand(SubCommand):
+    __command__ = 'migration'
+    __aliases__ = ['mi']
+    __arguments__ = [
+        UpgradeCommand,
+        DowngradeCommand,
+        NewVersionCommand
+    ]
+
+    def __call__(self, args):
+        self._parser.print_help()
+
+
 class DatabaseCommand(SubCommand):
     __command__ = 'database'
     __aliases__ = ['db']
     __arguments__ = [
-        CreateDatabase,
-        DropDatabase
+        CreateDatabaseCommand,
+        DropDatabaseCommand,
+        MigrationCommand
     ]

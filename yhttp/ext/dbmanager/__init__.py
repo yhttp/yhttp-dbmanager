@@ -3,6 +3,7 @@ from .cli import DatabaseCommand
 from .install import install
 from .dbmanager import PostgresqlManager
 from .uri import DatabaseURI
+from .migration import Migrator
 
 
 __version__ = '7.0.2'
