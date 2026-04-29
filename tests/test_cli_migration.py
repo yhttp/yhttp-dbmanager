@@ -74,5 +74,10 @@ def test_cli_migration(cicd):
         assert status == 0
         assert stdout.endswith('/0002-bar.py.\n')
 
+        when('db migration set 1')
+        assert stderr == ''
+        assert status == 0
+        assert stdout == 'database successfully set to version 0001.\n'
+
         when('db drop')
         assert status == 0

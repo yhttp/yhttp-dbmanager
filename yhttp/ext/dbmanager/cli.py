@@ -144,13 +144,34 @@ class NewVersionCommand(MigrationSubCommand):
         print(f'File generated successfully: {ver}.')
 
 
+class SetVersionCommand(MigrationSubCommand):
+    __command__ = 'set'
+    __aliases__ = ['s']
+    __arguments__ = [
+        Argument(
+            'version',
+            metavar='VERSION',
+            type=int,
+            help='database version.'
+        )
+    ]
+
+    def __call__(self, args):
+        ver = args.version
+        with self.migrator(args) as m:
+            m.dbversion_set(ver)
+
+        print(f'database successfully set to version {ver:04d}.')
+
+
 class MigrationCommand(SubCommand):
     __command__ = 'migration'
     __aliases__ = ['mi']
     __arguments__ = [
         UpgradeCommand,
         DowngradeCommand,
-        NewVersionCommand
+        NewVersionCommand,
+        SetVersionCommand
     ]
 
     def __call__(self, args):
