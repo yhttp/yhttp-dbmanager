@@ -2,7 +2,6 @@ import os
 
 from bddcli import Given, Application as CLIApplication, status, stderr, \
     when, stdout
-import easycli
 from yhttp.core import Application
 
 from yhttp.ext.dbmanager import install
