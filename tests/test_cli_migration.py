@@ -43,8 +43,10 @@ def test_cli_migration(cicd):
         env.setdefault('YHTTP_DB_DEFAULT_HOST', 'localhost')
         env.setdefault('YHTTP_DB_DEFAULT_ADMINUSER', 'postgres')
         env.setdefault('YHTTP_DB_DEFAULT_ADMINPASS', 'postgres')
+        env.setdefault('YHTTP_DB_DEFAULT_USER', 'postgres')
+        env.setdefault('YHTTP_DB_DEFAULT_PASS', 'postgres')
 
-    with Given(cliapp, 'db migration', enviiron=env):
+    with Given(cliapp, 'db migration', environ=env):
         when('db drop')
         when('db create')
         assert status == 0
