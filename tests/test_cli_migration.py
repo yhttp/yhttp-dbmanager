@@ -1,3 +1,4 @@
+import os
 import tempfile
 
 from bddcli import Given, Application as CLIApplication, status, stderr, \
@@ -35,7 +36,7 @@ with open(f'{vdir}/0001-foo.py', 'w') as f:
     f.write(foo_content)
 
 
-def test_cli_migration():
+def test_cli_migration(cicd):
     cliapp = CLIApplication('foo', f'{__name__}:app.climain')
     env = os.environ.copy()
     if cicd:
