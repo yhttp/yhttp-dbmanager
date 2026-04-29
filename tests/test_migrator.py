@@ -36,6 +36,10 @@ def test_migrator_upgrade_downgrade(migrator, mktmptree):
         '0001-foo.py': foo_content,
         '0002-bar.py': bar_content,
     })
+
+    with pytest.raises(ValueError):
+        migrator.versions_directory
+
     migrator.settings.directory = root
 
     assert migrator.dbversion() == 0

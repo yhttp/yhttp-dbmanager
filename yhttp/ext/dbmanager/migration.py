@@ -111,7 +111,13 @@ class Migrator:
 
     @cached_property
     def versions_directory(self):
-        vdir = self.settings.directory
+        try:
+            vdir = self.settings.directory
+        except AttributeError:
+            raise ValueError(
+                'Please provide db.migration.directory configuration entry.'
+            )
+
         if not os.path.exists(vdir):
             os.mkdir(vdir)
 

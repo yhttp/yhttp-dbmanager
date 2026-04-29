@@ -15,8 +15,7 @@ def install(app, cliarguments=None):
 
     @app.when
     def ready(app):
-        if 'url' not in app.settings.db or \
-                'directory' not in app.settings.db.migration:
+        if 'url' not in app.settings.db:
             raise ValueError(
                 'Please provide db.url configuration entry, for example: '
                 'postgres://:@/dbname'
