@@ -6,4 +6,4 @@ from .uri import DatabaseURI
 from .migration import Migrator
 
 
-__version__ = '7.0.2'
+__version__ = '8.0.1'
