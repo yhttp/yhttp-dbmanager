@@ -52,9 +52,9 @@ def test_cli_migration(cicd):
         assert status == 0
 
         when('db migration upgrade 1')
-        assert stdout == 'database successfully upgraded to version 0001.\n'
         assert stderr == ''
         assert status == 0
+        assert stdout == 'database successfully upgraded to version 0001.\n'
 
         when('db migration downgrade 0')
         assert stderr == ''
@@ -62,14 +62,14 @@ def test_cli_migration(cicd):
         assert status == 0
 
         when('db migration upgrade')
-        assert stdout == 'database successfully upgraded to version 0001.\n'
         assert stderr == ''
         assert status == 0
+        assert stdout == 'database successfully upgraded to version 0001.\n'
 
         when('db migration new bar')
         assert stderr == ''
-        assert stdout.endswith('/0002-bar.py.\n')
         assert status == 0
+        assert stdout.endswith('/0002-bar.py.\n')
 
         when('db drop')
         assert status == 0
