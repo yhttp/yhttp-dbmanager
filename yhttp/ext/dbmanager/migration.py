@@ -106,6 +106,7 @@ class Migrator:
             return c.fetchone()[0]
 
     def dbversion_set(self, ver):
+        self.ensure_versiontable()
         self.db.execute(f'UPDATE {self.vtable} SET version={ver}')
         self.db.commit()
 
