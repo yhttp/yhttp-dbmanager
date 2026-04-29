@@ -37,8 +37,13 @@ with open(f'{vdir}/0001-foo.py', 'w') as f:
 
 def test_cli_migration():
     cliapp = CLIApplication('foo', f'{__name__}:app.climain')
+    env = os.environ.copy()
+    if cicd:
+        env.setdefault('YHTTP_DB_DEFAULT_HOST', 'localhost')
+        env.setdefault('YHTTP_DB_DEFAULT_ADMINUSER', 'postgres')
+        env.setdefault('YHTTP_DB_DEFAULT_ADMINPASS', 'postgres')
 
-    with Given(cliapp, 'db migration'):
+    with Given(cliapp, 'db migration', enviiron=env):
         when('db drop')
         when('db create')
         assert status == 0
