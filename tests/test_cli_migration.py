@@ -16,6 +16,9 @@ db:
   migration:
     directory: {vdir}
 ''')
+if os.environ.get('CI') and os.environ.get('GITHUB_RUN_ID'):
+    app.settings.db.url = 'postgres://postgres:postgres@localhost/foo'
+
 install(app)
 
 
