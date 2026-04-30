@@ -1,4 +1,5 @@
 import os
+import sys
 import functools
 import getpass
 
@@ -150,18 +151,46 @@ class SetVersionCommand(MigrationSubCommand):
     __arguments__ = [
         Argument(
             'version',
-            metavar='VERSION',
-            type=int,
+            metavar='VERSION|last',
             help='database version.'
         )
     ]
 
     def __call__(self, args):
-        ver = args.version
         with self.migrator(args) as m:
+            if args.version == 'last':
+                ver = m.lastversion
+            else:
+                try:
+                    ver = int(args.version)
+                except ValueError:
+                    print(f'invalid version: {args.version}', file=sys.stderr)
+                    return 1
+
             m.dbversion_set(ver)
 
         print(f'database successfully set to version {ver:04d}.')
+
+
+class GetLastVersionCommand(MigrationSubCommand):
+    __command__ = 'last'
+    __aliases__ = ['l']
+
+    def __call__(self, args):
+        with self.migrator(args) as m:
+            print(m.lastversion)
+
+
+class GetVersionCommand(MigrationSubCommand):
+    __command__ = 'get'
+    __aliases__ = ['g', 'show']
+    __arguments__ = [
+        GetLastVersionCommand,
+    ]
+
+    def __call__(self, args):
+        with self.migrator(args) as m:
+            print(m.dbversion())
 
 
 class MigrationCommand(SubCommand):
@@ -171,7 +200,8 @@ class MigrationCommand(SubCommand):
         UpgradeCommand,
         DowngradeCommand,
         NewVersionCommand,
-        SetVersionCommand
+        SetVersionCommand,
+        GetVersionCommand
     ]
 
     def __call__(self, args):

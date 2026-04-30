@@ -39,15 +39,9 @@ with open(f'{vdir}/0001-foo.py', 'w') as f:
     f.write(foo_content)
 
 
-def test_cli_migration(cicd):
+def test_cli_migration():
     cliapp = CLIApplication('foo', f'{__name__}:app.climain')
     env = os.environ.copy()
-    if cicd:
-        env.setdefault('YHTTP_DB_DEFAULT_HOST', 'localhost')
-        env.setdefault('YHTTP_DB_DEFAULT_ADMINUSER', 'postgres')
-        env.setdefault('YHTTP_DB_DEFAULT_ADMINPASS', 'postgres')
-        env.setdefault('YHTTP_DB_DEFAULT_USER', 'postgres')
-        env.setdefault('YHTTP_DB_DEFAULT_PASS', 'postgres')
 
     with Given(cliapp, 'db migration', environ=env):
         when('db drop')
@@ -74,10 +68,35 @@ def test_cli_migration(cicd):
         assert status == 0
         assert stdout.endswith('/0002-bar.py.\n')
 
-        when('db migration set 1')
+        when('db migration set foo')
+        assert stderr == 'invalid version: foo\n'
+        assert status == 1
+        assert stdout == ''
+
+        when('db migration set 0')
+        assert stderr == ''
+        assert status == 0
+        assert stdout == 'database successfully set to version 0000.\n'
+
+        when('db migration get')
+        assert stderr == ''
+        assert status == 0
+        assert stdout == '0\n'
+
+        when('db migration get last')
+        assert stderr == ''
+        assert status == 0
+        assert stdout == '1\n'
+
+        when('db migration set last')
         assert stderr == ''
         assert status == 0
         assert stdout == 'database successfully set to version 0001.\n'
+
+        when('db migration get')
+        assert stderr == ''
+        assert status == 0
+        assert stdout == '1\n'
 
         when('db drop')
         assert status == 0
