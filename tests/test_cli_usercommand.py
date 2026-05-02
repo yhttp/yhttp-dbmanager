@@ -14,10 +14,10 @@ class Bar(easycli.SubCommand):
 
 
 app = Application('0.1.0', 'foo')
-app.settings.merge('''
+app.settings |= '''
 db:
   url: postgres://:@/foo
-''')
+'''
 install(app, cliarguments=[Bar])
 
 

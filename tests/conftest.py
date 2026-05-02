@@ -1,7 +1,7 @@
 import os
 
 import pytest
-from pymlconf import MergableDict
+from pymlconf import Meld
 from yhttp.ext.dbmanager import PostgresqlManager
 from yhttp.dev.fixtures import freshdb
 
@@ -22,8 +22,6 @@ def dbmanager(cicd):
 
 @pytest.fixture
 def migrator(freshdb):
-    settings = MergableDict('migration: {}')
-    settings.migration.merge(Migrator.default_settings)
-    m = Migrator(freshdb, settings.migration)
+    m = Migrator(freshdb, Meld(Migrator.default_settings))
     yield m
     m.close()

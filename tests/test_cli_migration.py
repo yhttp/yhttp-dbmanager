@@ -10,12 +10,12 @@ from yhttp.ext.dbmanager import install
 
 vdir = tempfile.mkdtemp()
 app = Application('0.1.0', 'foo')
-app.settings.merge(f'''
+app.settings |= f'''
 db:
   url: postgres://:@/foo
   migration:
     directory: {vdir}
-''')
+'''
 if os.environ.get('CI') and os.environ.get('GITHUB_RUN_ID'):
     app.settings.db.url = 'postgres://postgres:postgres@localhost/foo'
 

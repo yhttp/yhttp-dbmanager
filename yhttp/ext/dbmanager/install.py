@@ -1,3 +1,5 @@
+from pymlconf import Meld
+
 from .cli import DatabaseCommand
 from .migration import Migrator
 
@@ -7,11 +9,10 @@ def install(app, cliarguments=None):
     if cliarguments:
         DatabaseCommand.__arguments__.extend(cliarguments)
 
-    app.settings.merge('''
-    db:
-      migration: {}
-    ''')
-    app.settings.db.migration.merge(Migrator.default_settings)
+    app.settings |= Meld(
+        Meld(Migrator.default_settings, root='migration'),
+        root='db'
+    )
 
     @app.when
     def ready(app):

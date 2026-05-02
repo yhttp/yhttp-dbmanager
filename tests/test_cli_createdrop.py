@@ -8,10 +8,10 @@ from yhttp.ext.dbmanager import install
 
 
 app = Application('0.1.0', 'foo')
-app.settings.merge('''
+app.settings |= '''
 db:
   url: postgres://:@/foo
-''')
+'''
 install(app)
 
 
