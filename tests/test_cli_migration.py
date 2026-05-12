@@ -52,6 +52,7 @@ def test_cli_migration(cicd):
     with Given(cliapp, 'db migration', environ=env):
         when('db drop')
         when('db create')
+        assert stderr == ''
         assert status == 0
 
         when('db migration upgrade 1')

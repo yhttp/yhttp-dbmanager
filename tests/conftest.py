@@ -1,7 +1,7 @@
 import os
 
 import pytest
-from pymlconf import Meld
+from snam import Meld
 from yhttp.ext.dbmanager import PostgresqlManager
 from yhttp.dev.fixtures import freshdb
 

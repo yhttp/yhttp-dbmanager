@@ -1,4 +1,4 @@
-from pymlconf import Meld
+from snam import Meld
 
 from .cli import DatabaseCommand
 from .migration import Migrator
