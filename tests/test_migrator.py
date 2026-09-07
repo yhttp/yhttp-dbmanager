@@ -66,3 +66,4 @@ def test_migrator_newversion(migrator, tmpdir):
 
     assert f'{tmpdir}/versions/0001-foo.py' == migrator.newversion('foo')
     assert f'{tmpdir}/versions/0002-bar.py' == migrator.newversion('bar')
+    assert (tmpdir / 'versions' / '__init__.py').check(file=1)

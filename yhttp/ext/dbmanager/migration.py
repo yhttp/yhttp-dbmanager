@@ -121,6 +121,7 @@ class Migrator:
 
         if not os.path.exists(vdir):
             os.mkdir(vdir)
+            open(os.path.join(vdir, '__init__.py'), 'w').close()
 
         return vdir
 
