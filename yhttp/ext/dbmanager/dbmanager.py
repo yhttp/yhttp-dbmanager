@@ -1,7 +1,6 @@
 import abc
 
-import psycopg2
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+import psycopg
 
 
 class DatabaseManager(metaclass=abc.ABCMeta):
@@ -31,13 +30,13 @@ class PostgresqlManager(DatabaseManager):
 
     def __init__(self, host=None, database='postgres', user=None,
                  password=None):
-        self.connection = psycopg2.connect(
+        self.connection = psycopg.connect(
             host=host,
             dbname=database,
             user=user,
-            password=password
+            password=password,
+            autocommit=True,
         )
-        self.connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
     def execute(self, query):
         cursor = self.connection.cursor()

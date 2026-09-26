@@ -4,7 +4,7 @@ import importlib
 from functools import cached_property
 from contextlib import contextmanager
 
-import psycopg2
+import psycopg
 
 
 VERSIONFILE_TEMPLATE = '''\
@@ -23,7 +23,7 @@ class Database:
 
     @cached_property
     def connection(self):
-        return psycopg2.connect(self.url)
+        return psycopg.connect(self.url)
 
     def commit(self):
         self.connection.commit()
